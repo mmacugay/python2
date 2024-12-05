@@ -31,7 +31,7 @@ def candidateMenu():
 
 def main():
     root = tkinter.Tk()
-    root.title("Lab 10")
+    root.title("Lab 1 Redux")
     root.geometry("240x220")
     root.resizable(width=False, height=False)
 

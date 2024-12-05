@@ -11,6 +11,9 @@ class Vote:
         
 
     def vote(self, candidate):
+        '''
+        collects the current data in the csv file and sends the command to store the new data
+        '''
         if(os.path.isfile(Vote.file_output)):
             with open(Vote.file_output, 'r') as csv_file:
                 csv_reader = csv.reader(csv_file, delimiter=',')
@@ -28,7 +31,13 @@ class Vote:
         self.store_vote()
         
     def store_vote(self):
+        '''
+        Writes changes in Jane and John variables to the data.csv for the session.
+        '''
         with open(Vote.file_output, 'w', newline="") as csv_file:
             contents = csv.writer(csv_file)
             contents.writerow([("John"), self.__john])
             contents.writerow([("Jane"), self.__jane])
+
+    def __str__(self):
+        return f"John - {self.__john}, Jane - {self.__jane}, Total - {self.__john+self.__jane}\n"
