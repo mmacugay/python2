@@ -4,40 +4,38 @@ import os.path
 class Vote: 
     file_output = 'files/data.csv'
     def __init__(self):
-        self.__john = 0
-        self.__jane = 0
-        
+        self.candidate = ""
         
         
 
-    def vote(self, candidate):
+    def vote(self,id:str, candidate:int) -> bool :
         '''
         collects the current data in the csv file and sends the command to store the new data
         '''
-        if(os.path.isfile(Vote.file_output)):
-            with open(Vote.file_output, 'r') as csv_file:
-                csv_reader = csv.reader(csv_file, delimiter=',')
-                for row in csv_reader:
-                    if row == 0:
-                        self.__john = row[1]
-                    elif row == 1:
-                        self.__jane = row[1]
-
+        check = True
         if candidate == 1:
-            self.__john += 1
+            self.candidate = "John"
         elif candidate == 2:
-            self.__jane += 1
+            self.candidate = "Jane"
+        with open(Vote.file_output, 'r') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            for row in csv_reader:
+                if row[0] == id:
+                    check = False
+                    return check
 
-        self.store_vote()
+        print(self.candidate)
+        self.store_vote(id, self.candidate)
+        return check
+
         
-    def store_vote(self):
-        '''
-        Writes changes in Jane and John variables to the data.csv for the session.
-        '''
-        with open(Vote.file_output, 'w', newline="") as csv_file:
-            contents = csv.writer(csv_file)
-            contents.writerow([("John"), self.__john])
-            contents.writerow([("Jane"), self.__jane])
 
-    def __str__(self):
-        return f"John - {self.__john}, Jane - {self.__jane}, Total - {self.__john+self.__jane}\n"
+        
+        
+    def store_vote(self, id:str, candidate:str):
+        '''
+        Writes changes in Jane and John variables to the data.csv from the session.
+        '''
+        with open(Vote.file_output, 'a', newline="") as csv_file:
+            contents = csv.writer(csv_file)
+            contents.writerow([id, candidate])
